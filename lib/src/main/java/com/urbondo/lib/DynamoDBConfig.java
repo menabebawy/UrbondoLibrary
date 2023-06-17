@@ -1,4 +1,4 @@
-package urbondolibrary;
+package com.urbondo.lib;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

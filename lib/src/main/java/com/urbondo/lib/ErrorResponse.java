@@ -1,4 +1,4 @@
-package urbondolibrary;
+package com.urbondo.lib;
 
 import org.springframework.http.HttpStatus;
 
