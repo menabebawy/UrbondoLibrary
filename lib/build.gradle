@@ -23,3 +23,13 @@ java {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+//When building a multi-module project which includes a module outside of the springboot project,
+// then the module's build.gradle must contain
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
