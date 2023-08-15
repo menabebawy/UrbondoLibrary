@@ -15,20 +15,19 @@ import static com.amazonaws.regions.Regions.US_EAST_1;
 public class DynamoDBConfig {
 
     @Bean
-    public DynamoDBMapper dynamoDBMapper(AmazonDynamoDB amazonDynamoDB) {
-        return new DynamoDBMapper(amazonDynamoDB);
+    public DynamoDBMapper dynamoDBMapper() {
+        return new DynamoDBMapper(amazonDynamoDB(awsCredentials()));
     }
 
-    @Bean
-    public AmazonDynamoDB amazonDynamoDB(AWSCredentials awsCredentials) {
+
+    private AmazonDynamoDB amazonDynamoDB(AWSCredentials awsCredentials) {
         return AmazonDynamoDBClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .withRegion(US_EAST_1)
                 .build();
     }
 
-    @Bean
-    public AWSCredentials awsCredentials() {
+    private AWSCredentials awsCredentials() {
         return new DefaultAWSCredentialsProviderChain().getCredentials();
     }
 }
