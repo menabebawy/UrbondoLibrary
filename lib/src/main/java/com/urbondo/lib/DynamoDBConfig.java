@@ -6,19 +6,28 @@ import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import static com.amazonaws.regions.Regions.US_EAST_1;
 
-@Configuration
 public class DynamoDBConfig {
+    private final DynamoDBMapper dynamoDBMapper;
+    private static DynamoDBConfig init;
 
-    @Bean
-    public DynamoDBMapper dynamoDBMapper() {
-        return new DynamoDBMapper(amazonDynamoDB(awsCredentials()));
+    public static synchronized DynamoDBConfig getInstance() {
+        if (init == null) {
+            init = new DynamoDBConfig();
+        }
+
+        return init;
     }
 
+    private DynamoDBConfig() {
+        dynamoDBMapper = new DynamoDBMapper(amazonDynamoDB(awsCredentials()));
+    }
+
+    public DynamoDBMapper getDynamoDBMapper() {
+        return dynamoDBMapper;
+    }
 
     private AmazonDynamoDB amazonDynamoDB(AWSCredentials awsCredentials) {
         return AmazonDynamoDBClientBuilder.standard()

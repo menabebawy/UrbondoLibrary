@@ -1,7 +1,6 @@
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.1.2'
-    id 'io.spring.dependency-management' version '1.1.2'
+    id 'java-library'
+    id 'maven-publish'
 }
 
 repositories {
@@ -9,8 +8,30 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.12.472'
+}
+
+version = '0.0.1'
+group = 'com.urbondo'
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components["java"])
+        }
+    }
+    repositories {
+        maven {
+            name "nexus"
+            url 'http://localhost:8081/repository/maven-releases/'
+            allowInsecureProtocol = true
+            credentials {
+                username project.repoUser
+                password project.repoPassword
+            }
+        }
+    }
 }
 
 java {
@@ -21,14 +42,4 @@ java {
 
 tasks.named('test') {
     useJUnitPlatform()
-}
-
-//When building a multi-module project which includes a module outside of the springboot project,
-// then the module's build.gradle must contain
-bootJar {
-    enabled = false
-}
-
-jar {
-    enabled = true
 }

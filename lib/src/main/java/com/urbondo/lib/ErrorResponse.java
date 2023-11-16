@@ -1,7 +1,5 @@
 package com.urbondo.lib;
 
-import org.springframework.http.HttpStatus;
-
 import java.util.Date;
 
 public class ErrorResponse {
@@ -10,10 +8,10 @@ public class ErrorResponse {
     private final String status;
     private final String message;
 
-    public ErrorResponse(HttpStatus httpStatus, String message) {
+    public ErrorResponse(int code, String status, String message) {
         this.timestamp = new Date();
-        this.code = httpStatus.value();
-        this.status = httpStatus.name();
+        this.code = code;
+        this.status = status;
         this.message = message;
     }
 
